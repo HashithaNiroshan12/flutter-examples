@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CounterProvider extends ChangeNotifier {
@@ -10,6 +11,9 @@ class CounterProvider extends ChangeNotifier {
   void increment() {
     counterValue++;
     notifyListeners();
+    if (kDebugMode) {
+      print("Counter Value: $counterValue");
+    }
   }
 
   void decrement() {

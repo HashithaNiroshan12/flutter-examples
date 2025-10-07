@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:version_3_22_8/features/provider_state/presentation/provider/counter_provider.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({Key? key}) : super(key: key);
@@ -22,7 +24,7 @@ class _CounterPageState extends State<CounterPage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '0',
+              '${context.watch<CounterProvider>().counterValue}',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
@@ -32,13 +34,17 @@ class _CounterPageState extends State<CounterPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<CounterProvider>().decrement();
+            },
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           ),
           const SizedBox(width: 10),
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<CounterProvider>().increment();
+            },
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),

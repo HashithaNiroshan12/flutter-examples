@@ -7,6 +7,10 @@ import 'package:version_3_22_8/features/crud/presentation/pages/main_screen.dart
 import 'package:version_3_22_8/features/maps/map.dart';
 import 'package:version_3_22_8/features/persistence/presentation/domain/usecase/counter_storage.dart';
 import 'package:version_3_22_8/features/persistence/presentation/pages/counter_storage.dart';
+import 'package:version_3_22_8/features/provider_state/presentation/pages/counter_page.dart';
+import 'package:version_3_22_8/features/provider_state/presentation/pages/provider_example.dart';
+import 'package:version_3_22_8/features/provider_state/presentation/widgets/multi_provider_example.dart';
+import 'package:version_3_22_8/features/provider_state/presentation/widgets/page_one.dart';
 import 'package:version_3_22_8/features/sqlite/presentation/domain/entities/dog.dart';
 import 'package:version_3_22_8/features/attaches/presentation/models/data.dart'
     as data;
@@ -131,6 +135,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const MainScreen());
+        home: const MultiProviderExample());
   }
 }
