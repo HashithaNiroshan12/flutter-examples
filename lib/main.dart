@@ -1,19 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:version_3_22_8/features/attaches/presentation/pages/feed.dart';
-import 'package:version_3_22_8/features/crud/presentation/pages/main_screen.dart';
-import 'package:version_3_22_8/features/maps/map.dart';
-import 'package:version_3_22_8/features/persistence/presentation/domain/usecase/counter_storage.dart';
-import 'package:version_3_22_8/features/persistence/presentation/pages/counter_storage.dart';
-import 'package:version_3_22_8/features/provider_state/presentation/pages/counter_page.dart';
-import 'package:version_3_22_8/features/provider_state/presentation/pages/provider_example.dart';
-import 'package:version_3_22_8/features/provider_state/presentation/widgets/multi_provider_example.dart';
-import 'package:version_3_22_8/features/provider_state/presentation/widgets/page_one.dart';
+import 'package:version_3_22_8/core/repository/auth_repository.dart';
+import 'package:version_3_22_8/features/login/bloc/login_bloc.dart';
+import 'package:version_3_22_8/features/login/pages/login_view.dart';
+import 'package:version_3_22_8/features/login/repository/repositories.dart';
 import 'package:version_3_22_8/features/sqlite/presentation/domain/entities/dog.dart';
-import 'package:version_3_22_8/features/attaches/presentation/models/data.dart'
-    as data;
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -121,20 +116,44 @@ void main() async {
     print(await dogs());
   }
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  final AuthRepsotory authRepsotory = AuthRepsotory();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(
+            create: (_) => AuthenticationRepository(),
+            dispose: (repository) => repository,
+          ),
+          RepositoryProvider(
+            create: (context) => UserRepository(),
+          ),
+        ],
+        child: BlocProvider(
+          create: (context) => LoginBloc(
+              authenticationRepository:
+                  context.read<AuthenticationRepository>(),
+              userRepository: context.read<UserRepository>())
+            ..add(AuthenticationSubscriptionRequested()),
+          child:  LoginScreen(),
         ),
-        home: const MultiProviderExample());
+      ),
+      // routes: {
+      //   '/login': (context) => const LoginScreen(),
+      // },
+    );
   }
 }
