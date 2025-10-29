@@ -7,10 +7,12 @@ import 'package:version_3_22_8/core/repository/auth_repository.dart';
 import 'package:version_3_22_8/features/login/bloc/login_bloc.dart';
 import 'package:version_3_22_8/features/login/pages/login_view.dart';
 import 'package:version_3_22_8/features/login/repository/repositories.dart';
+import 'package:version_3_22_8/features/posts/page/posts_page.dart';
+import 'package:version_3_22_8/features/posts/simple_bloc_observer.dart';
 import 'package:version_3_22_8/features/sqlite/presentation/domain/entities/dog.dart';
 
-
 void main() async {
+  Bloc.observer = SimpleBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
 
   // Open the database and store the reference.
@@ -128,32 +130,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider(
-            create: (_) => AuthenticationRepository(),
-            dispose: (repository) => repository,
-          ),
-          RepositoryProvider(
-            create: (context) => UserRepository(),
-          ),
-        ],
-        child: BlocProvider(
-          create: (context) => LoginBloc(
-              authenticationRepository:
-                  context.read<AuthenticationRepository>(),
-              userRepository: context.read<UserRepository>())
-            ..add(AuthenticationSubscriptionRequested()),
-          child:  LoginScreen(),
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
-      ),
-      // routes: {
-      //   '/login': (context) => const LoginScreen(),
-      // },
-    );
+        home: const PostsPage());
   }
 }
