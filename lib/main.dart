@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:version_3_22_8/core/repository/auth_repository.dart';
+import 'package:version_3_22_8/features/flutter_timer/pages/time_page.dart';
 import 'package:version_3_22_8/features/login/bloc/login_bloc.dart';
 import 'package:version_3_22_8/features/login/pages/login_view.dart';
 import 'package:version_3_22_8/features/login/repository/repositories.dart';
@@ -134,6 +135,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const PostsPage());
+        home: const TimerPage());
   }
 }
